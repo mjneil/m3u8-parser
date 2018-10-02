@@ -20,10 +20,9 @@ export const tagList = {
 };
 
 export const parse = (tags) => {
-  const playlist = {};
   const basicTags = tags.filter(tag => !!tagList[tag.key]);
 
   return basicTags.reduce((playlist, tag) => {
     return tagList[tag.key](playlist, tag);
-  }, playlist);
+  }, { comments: [], unknown: [] });
 };

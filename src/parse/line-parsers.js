@@ -1,5 +1,3 @@
-import exp from '../constants/expressions.js';
-
 /**
  * "forgiving" attribute list psuedo-grammar:
  * attributes -> keyvalue (',' keyvalue)*
@@ -50,7 +48,7 @@ const parseAttributes = function(attributes) {
   }
  */
 export default {
-    // Basic Tags
+  // Basic Tags
   M3U(tag, match) {
     return tag;
   },
@@ -64,7 +62,7 @@ export default {
   // Media Segment Tags
   INF(tag, match) {
     if (match[1]) {
-      tag.duration = parseFloat(mtch[1]);
+      tag.duration = parseFloat(match[1]);
     }
     if (match[2]) {
       tag.title = match[2];
@@ -201,4 +199,4 @@ export default {
     }
     return tag;
   }
-}
+};

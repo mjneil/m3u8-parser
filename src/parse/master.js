@@ -4,7 +4,7 @@ const tagList = {
           tag.attributes.TYPE &&
           tag.attributes['GROUP-ID'] &&
           tag.attributes.NAME)) {
-      throw 'ignoring incomplete or missing media group';
+      return playlist;
     }
 
     // find the media group, creating defaults as necessary
@@ -88,7 +88,9 @@ export const parse = (playlist, tags, extensions) => {
 
   const masterTags = tags.filter(tag => !!tagList[tag.key]);
 
-  return masterTags.reduce((playlist, tag) => {
+  masterTags.forEach((tag) => {
     return tagList[tag.key](playlist, tag);
-  }, playlist);
+  });
+
+  return playlist;
 };

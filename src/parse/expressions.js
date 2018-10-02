@@ -22,4 +22,4 @@ export default {
   // Master Playlist Tags
   MEDIA: /^#EXT-X-MEDIA:?(.*)$/,
   STREAM_INF: /^#EXT-X-STREAM-INF:?(.*)$/
-}
+};

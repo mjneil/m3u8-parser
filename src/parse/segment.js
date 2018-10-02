@@ -1,5 +1,9 @@
 export const tagList = {
   INF(playlist, segment, tag) {
+    if (typeof tag.duration === 'undefined') {
+      tag.duration = playlist.targetDuration;
+    }
+
     segment.duration = tag.duration || 0.01;
 
     return playlist;
@@ -16,8 +20,8 @@ export const tagList = {
   },
   DISCONTINUITY(playlist, segment, tag) {
     segment.discontinuity = true;
-    playlist.timeline++;
-    playlist.discontinuityStarts.push(playlist.segments.length);
+    segment.timeline++;
+    playlist.discontinuityStarts.push(playlist.segments.length - 1);
 
     return playlist;
   },
@@ -26,7 +30,7 @@ export const tagList = {
       return playlist;
     }
 
-    if(tag.attributes.METHOD === 'NONE') {
+    if (tag.attributes.METHOD === 'NONE') {
       delete segment.key;
       return playlist;
     }
@@ -76,29 +80,41 @@ export const tagList = {
   }
 };
 
-export const parse= (playlist, tags, extensions) => {
+export const parse = (playlist, tags, extensions) => {
   playlist.segments = [];
   playlist.discontinuityStarts = [];
 
   const segmentTags = tags.filter(tag => !!tagList[tag.key]);
 
-  return segmentTags.reduce((playlist, tag) => {
+  segmentTags.forEach((tag) => {
     if (playlist.segments.length === 0) {
-      playlist.segments.push({});
+      playlist.segments.push({
+        timeline: playlist.discontinuitySequence
+      });
     }
 
-    let segmentIndex = playlist.segments.length - 1;
+    const segmentIndex = playlist.segments.length - 1;
     let segment = playlist.segments[segmentIndex];
 
     if (segment.uri) {
-      segment = {
-        key: segment.key,
-        map: segment.map
-      };
+      const key = segment.key;
+      const map = segment.map;
+
+      segment = { timeline: segment.timeline };
+
+      if (key) {
+        segment.key = key;
+      }
+
+      if (map) {
+        segment.map = map;
+      }
 
       playlist.segments.push(segment);
     }
 
     return tagList[tag.key](playlist, segment, tag);
-  }, playlist);
+  });
+
+  return playlist;
 };

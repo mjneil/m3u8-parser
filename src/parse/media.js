@@ -1,9 +1,9 @@
-import segmentTags from './segment.js';
+import { parse as parseSegments } from './segment.js';
 
 export const tagList = {
   TARGETDURATION(playlist, tag) {
     if (!isFinite(tag.duration) || tag.duration < 0) {
-      throw 'invalid taget duration';
+      throw new Error('invalid taget duration');
     }
 
     playlist.targetDuration = tag.duration;
@@ -12,7 +12,7 @@ export const tagList = {
   },
   MEDIA_SEQUENCE(playlist, tag) {
     if (!isFinite(tag.number)) {
-      throw 'invalid media sequence';
+      throw new Error('invalid media sequence');
     }
 
     playlist.mediaSequence = tag.number;
@@ -21,11 +21,10 @@ export const tagList = {
   },
   DISCONTINUITY_SEQUENCE(playlist, tag) {
     if (!isFinite(tag.number)) {
-      throw 'invalid discontinuity sequence';
+      throw new Error('invalid discontinuity sequence');
     }
 
     playlist.discontinuitySequence = tag.number;
-    playlist.timeline = tag.number
 
     return playlist;
   },
@@ -58,15 +57,14 @@ export const tagList = {
 };
 
 export const parse = (playlist, tags, extensions) => {
-  playlist.timeline = 0;
   playlist.mediaSequence = 0;
   playlist.discontinuitySequence = 0;
 
   const mediaTags = tags.filter(tag => !!tagList[tag.key]);
 
-  playlist = mediaTags.reduce((playlist, tag) => {
+  mediaTags.forEach((tag) => {
     return tagList[tag.key](playlist, tag);
-  }, playlist);
+  });
 
-  return segmentTags(playlist, tags, extensions);
+  return parseSegments(playlist, tags, extensions);
 };

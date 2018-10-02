@@ -4,12 +4,13 @@
   "targetDuration": 10,
   "segments": [
     {
+      "duration": 10,
       "uri": "001.ts",
       "timeline": 0
     },
     {
       "uri": "002.ts",
-      "duration": 9,
+      "duration": 10,
       "timeline": 0
     },
     {

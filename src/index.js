@@ -8,8 +8,10 @@
  * ReadableStream-like interface.
  */
 
-import parse from './parse/index.js';
+import { parse } from './parse/index.js';
+import { compose } from './compose/index.js';
 
 export {
-  parse
+  parse,
+  compose
 };

@@ -1,3 +1,5 @@
+/**
+
 import {ParseStream, LineStream, Parser} from '../src';
 import QUnit from 'qunit';
 import testDataExpected from './dist/test-expected.js';
@@ -1048,3 +1050,5 @@ QUnit.test('parses static manifests as expected', function(assert) {
     }
   }
 });
+
+*/
