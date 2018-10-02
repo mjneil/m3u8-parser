@@ -8,12 +8,8 @@
  * ReadableStream-like interface.
  */
 
-import LineStream from './line-stream';
-import ParseStream from './parse-stream';
-import Parser from './parser';
+import parse from './parse/index.js';
 
 export {
-  LineStream,
-  ParseStream,
-  Parser
+  parse
 };
