@@ -5,7 +5,7 @@ import { parse as parseMedia } from './media.js';
 import { parse as parseMaster} from './master.js';
 
 const isMaster = (tags) => {
-  const master = tags.filter(tag => tag.key === 'STREAM-INF').length;
+  const master = tags.filter(tag => tag.key === 'STREAM_INF').length;
   const media = tags.filter(tag => tag.key === 'INF').length;
 
   if (master && media) {

@@ -56,5 +56,5 @@ export const compose = (segment) => {
   lines.push(`${EXT.INF}${segment.duration}`);
   lines.push(segment.uri);
 
-  return lines;
+  return lines.join('\n');
 };

@@ -10,21 +10,17 @@ QUnit.test('parses static manifests as expected', function(assert) {
 
   for (key in testDataManifests) {
     if (testDataExpected[key]) {
-      try {
-        const playlist = parse(testDataManifests[key]);
+      const playlist = parse(testDataManifests[key]);
 
-        delete playlist.comments;
-        delete playlist.unknown;
-        delete playlist.version;
-        delete testDataExpected[key].allowCache;
+      delete playlist.comments;
+      delete playlist.unknown;
+      delete playlist.version;
+      delete testDataExpected[key].allowCache;
 
-        assert.deepEqual(playlist,
-          testDataExpected[key],
-          key + '.m3u8 was parsed correctly'
-        );
-      } catch (err) {
-        assert.ok(true);
-      }
+      assert.deepEqual(playlist,
+        testDataExpected[key],
+        key + '.m3u8 was parsed correctly'
+      );
     }
   }
 });

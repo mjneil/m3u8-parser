@@ -46,12 +46,9 @@ const tagList = {
     return playlist;
   },
   STREAM_INF(playlist, tag) {
+    playlist.streams.push({});
+
     const len = playlist.streams.length;
-
-    if (len === 0) {
-      playlist.streams.push({});
-    }
-
     const stream = playlist.streams[len - 1];
 
     if (!stream.attributes) {
@@ -63,10 +60,11 @@ const tagList = {
     return playlist;
   },
   URI(playlist, tag) {
-    const len = playlist.streams.length;
+    let len = playlist.streams.length;
 
     if (len === 0) {
       playlist.streams.push({});
+      len++;
     }
 
     const stream = playlist.streams[len - 1];
